@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="topbar">
+        <button class="topbar" onclick="newFile()">New</button>
+        <button class="topbar" onclick="openFile()">Open</button>
+        <button class="topbar" onclick="saveFile()">Save</button>
+        <button class="topbar" onclick="saveAs()">Save As</button>
+    </div>
+    
+    <div id="workspace" hidden>
+        <div>
+            <h1>Trial Balance</h1>
+            <table id="trialBalance">
+                <tr>
+                    <th>Account</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                </tr>
+                <tr id="tbTotal">
+                    <td id="tb"></td>
+                    <td id="tbDebit"></td>
+                    <td id="tbCredit"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <h1>Journal Entry</h1>
+            <table id="journals">
+                <tr>
+                    <th>Account</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                    <th id="journalNumber"></th>
+                </tr>
+                <tr>
+                    <td><select class="account"></select></td>
+                    <td><input class="debit" onblur="sumDebit()" type="number"></td>
+                    <td><input class="credit" onblur="sumCredit()" type="number"></td>
+                </tr>
+                <tr>
+                    <td><select class="account"></select></td>
+                    <td><input class="debit" onblur="sumDebit()" type="number"></td>
+                    <td><input class="credit" onblur="sumCredit()" type="number"></td>
+                </tr>
+                <tr>
+                    <td><button onclick="addNewLine()">Add Line</button></td>
+                    <td id="dr" class="total"></td>
+                    <td id="cr" class="total"></td>
+                    <td><button onclick="postJournal()">Post</button></td>
+                </tr>
+                <tr>
+                    
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <h1>Journal Listing</h1>
+            <table id="journalListing">
+                <tr>
+                    <th>No.</th>
+                    <th>Account</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <h1>Chart of Accounts</h1>
+            <table id="coa">
+                <tr>
+                    <th>Account</th>
+                    <th></th>
+                </tr>
+            </table>
+        </div>
+        
+
+    </div>
+</body>
+<script src="script.js"></script>
+<script src="file.js"></script>
+</html>

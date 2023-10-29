@@ -1,0 +1,47 @@
+[hidden]{
+    display: none !important;
+ }
+
+#workspace {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: white;
+    height: 95vh;
+}
+
+h1 {
+  text-align: center;
+}
+
+th {
+  text-align: left;
+  font-size: larger;
+}
+
+#topbar button{
+    width:100px;
+    height:100%;
+}
+
+#topbar {
+    display: flex;   
+    height: 50px;
+    background-color: lightgray;
+    position: sticky;
+    top: 0;
+}
+
+body{
+    margin:0px;
+    font-family: sans-serif;
+}
+
+#trialBalance,#journalListing {
+    white-space:nowrap;
+    border: 1px solid;
+}
+
+#trialBalance th,#trialBalance td, #journalListing th,#journalListing td {
+    border: 1px solid;
+    padding: 10px;
+  }

@@ -7,6 +7,7 @@ var coa = document.getElementById("coa");
 var accName = document.getElementById("accName");
 var journalNumber = document.getElementById("journalNumber");
 var journalListing = document.getElementById("journalListing");
+var jrlDate = document.getElementById("jrlDate");
 
 function addAccountList(){
     // Looping through journal entry account column
@@ -90,7 +91,7 @@ function sumColumn(col, id){
 }
 
 function postJournal(){
-    if(debitTotal.innerHTML === creditTotal.innerHTML && Number(debitTotal.innerHTML) > 0 && Number(creditTotal.innerHTML) > 0){
+    if(debitTotal.innerHTML === creditTotal.innerHTML && Number(debitTotal.innerHTML) > 0 && Number(creditTotal.innerHTML) > 0 && jrlDate.value !== ""){
         var leng = document.getElementsByClassName('debit').length; // Number of rows of journals
         var debit = document.getElementsByClassName('debit');
         var credit = document.getElementsByClassName('credit');
@@ -109,17 +110,22 @@ function postJournal(){
             data.journals[data.journals.length - 1].push(
                 { 
                     name: account[i].value,
-                    amount: Number(debit[i].value) - Number(credit[i].value)
+                    amount: Number(debit[i].value) - Number(credit[i].value),
+                    date: jrlDate.value
                 }
             );
+        }
 
+        for (let i = leng - 1; i >= 0; i--) {
             // Clear Journals
             debit[i].value = "";
             credit[i].value = "";
             if(i > 1){
-                table.deleteRow(i);
+                table.deleteRow(i + 1);
             }
+            jrlDate.value = "";
         }
+
         sumDebit();
         sumCredit();
         updateTrialBalance();
@@ -170,7 +176,7 @@ function updateTrialBalance(){
 function updateJournalListing(){
     journalListing.innerHTML = "";
     var toprow = journalListing.insertRow(0)
-    toprow.innerHTML = "<tr><th>No.</th><th>Account</th><th>Debit</th><th>Credit</th></tr>"
+    toprow.innerHTML = "<tr><th>No.</th><th>Date</th><th>Account</th><th>Debit</th><th>Credit</th></tr>"
 
     var pos = 0;
 
@@ -184,21 +190,23 @@ function updateJournalListing(){
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
             var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
 
             cell1.innerHTML = i;
-            cell2.innerHTML = data.journals[i][j].name;
+            cell2.innerHTML = data.journals[i][j].date;
+            cell3.innerHTML = data.journals[i][j].name;
 
             var bal = data.journals[i][j].amount;
 
             if(bal > 0){
-                cell3.innerHTML = bal;
-                cell4.innerHTML = 0;
+                cell4.innerHTML = bal;
+                cell5.innerHTML = 0;
             }else if(bal < 0){
-                cell3.innerHTML = 0;
-                cell4.innerHTML = -bal;
-            }else{
-                cell3.innerHTML = 0;
                 cell4.innerHTML = 0;
+                cell5.innerHTML = -bal;
+            }else{
+                cell4.innerHTML = 0;
+                cell5.innerHTML = 0;
             }
             pos += 1;
         }

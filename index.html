@@ -15,61 +15,61 @@
     </div>
     
     <div id="workspace" hidden>
-        <div>
-            <h1>Trial Balance</h1>
-            <table id="trialBalance">
-                <tr>
-                    <th>Account</th>
-                    <th>Debit</th>
-                    <th>Credit</th>
-                </tr>
-                <tr id="tbTotal">
-                    <td id="tb"></td>
-                    <td id="tbDebit"></td>
-                    <td id="tbCredit"></td>
-                </tr>
-            </table>
+        <div id="report">
+            <h1 onclick="show('trialBalance')">Trial Balance</h1>
+                <table id="trialBalance">
+                    <tr>
+                        <th>Account</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                    </tr>
+                    <tr id="tbTotal">
+                        <td id="tb"></td>
+                        <td id="tbDebit"></td>
+                        <td id="tbCredit"></td>
+                    </tr>
+                </table>
         </div>
 
-        <div>
-            <h1>Journal Entry</h1>
-            <div id="jrlInfo">
-                <label for="jrlDate">Date: </label>
-                <input type="date" id="jrlDate">
-                <label for="jrlNarration">Narration: </label>
-                <input type="text" id="jrlNarration">
+        <div id="inputData">
+            <h1 onclick="show('jrlTable')">Journal Entry</h1>
+            <div id="jrlTable">
+                <div id="jrlInfo">
+                    <label for="jrlDate">Date: </label>
+                    <input type="date" id="jrlDate">
+                    <label for="jrlNarration">Narration: </label>
+                    <input type="text" id="jrlNarration">
+                </div>
+                <table id="journals">
+                    <tr>
+                        <th>Account</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th id="journalNumber"></th>
+                    </tr>
+                    <tr>
+                        <td><select class="account"></select></td>
+                        <td><input class="debit" onblur="sumDebit()" type="number"></td>
+                        <td><input class="credit" onblur="sumCredit()" type="number"></td>
+                    </tr>
+                    <tr>
+                        <td><select class="account"></select></td>
+                        <td><input class="debit" onblur="sumDebit()" type="number"></td>
+                        <td><input class="credit" onblur="sumCredit()" type="number"></td>
+                    </tr>
+                    <tr>
+                        <td><button onclick="addNewLine()">Add Line</button></td>
+                        <td id="dr" class="total"></td>
+                        <td id="cr" class="total"></td>
+                        <td><button onclick="postJournal()">Post</button></td>
+                    </tr>
+                    <tr>
+                        
+                    </tr>
+                </table>
             </div>
-            <table id="journals">
-                <tr>
-                    <th>Account</th>
-                    <th>Debit</th>
-                    <th>Credit</th>
-                    <th id="journalNumber"></th>
-                </tr>
-                <tr>
-                    <td><select class="account"></select></td>
-                    <td><input class="debit" onblur="sumDebit()" type="number"></td>
-                    <td><input class="credit" onblur="sumCredit()" type="number"></td>
-                </tr>
-                <tr>
-                    <td><select class="account"></select></td>
-                    <td><input class="debit" onblur="sumDebit()" type="number"></td>
-                    <td><input class="credit" onblur="sumCredit()" type="number"></td>
-                </tr>
-                <tr>
-                    <td><button onclick="addNewLine()">Add Line</button></td>
-                    <td id="dr" class="total"></td>
-                    <td id="cr" class="total"></td>
-                    <td><button onclick="postJournal()">Post</button></td>
-                </tr>
-                <tr>
-                    
-                </tr>
-            </table>
-        </div>
-
-        <div>
-            <h1>Journal Listing</h1>
+            <br>
+            <h1 onclick="show('journalListing')">Journal Listing</h1>
             <table id="journalListing">
                 <tr>
                     <th>No.</th>
@@ -79,16 +79,16 @@
                     <th>Credit</th>
                 </tr>
             </table>
-        </div>
-
-        <div>
-            <h1>Chart of Accounts</h1>
+            
+            <br>
+            <h1 onclick="show('coa')">Chart of Accounts</h1>
             <table id="coa">
                 <tr>
                     <th>Account</th>
                     <th></th>
                 </tr>
             </table>
+            
         </div>
     </div>
 </body>

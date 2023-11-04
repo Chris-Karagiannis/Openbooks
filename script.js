@@ -85,13 +85,29 @@ function sumColumn(col, id){
     var loc = document.getElementById(id);
 
     for (let i = 1; i < trialBalance.rows.length - 1; i++) {
-        tot += Number(trialBalance.rows[i].cells[col].innerHTML);
+        let amo = removeCommas(trialBalance.rows[i].cells[col].innerHTML);
+        tot += Number(amo);
     }
     
     loc.innerHTML = tot;
 }
 
+function removeCommas(str) {
+    while (str.search(",") >= 0) {
+        str = (str + "").replace(',', '');
+    }
+    return str;
+}
+
 function postJournal(){
+    if(debitTotal.innerHTML !== creditTotal.innerHTML){
+        confirm("JOURNAL DOES NOT BALANCE");
+    }
+
+    if(jrlDate.value === ""){
+        confirm("NO DATE ENTERED");
+    }
+
     if(debitTotal.innerHTML === creditTotal.innerHTML && Number(debitTotal.innerHTML) > 0 && Number(creditTotal.innerHTML) > 0 && jrlDate.value !== ""){
         var leng = document.getElementsByClassName('debit').length; // Number of rows of journals
         var debit = document.getElementsByClassName('debit');
@@ -161,11 +177,11 @@ function updateTrialBalance(){
         var bal = data.account[i].balance;
 
         if(bal > 0){
-            cell2.innerHTML = bal;
+            cell2.innerHTML = bal.toLocaleString('en-US');
             cell3.innerHTML = 0;
         }else if(bal < 0){
             cell2.innerHTML = 0;
-            cell3.innerHTML = -bal;
+            cell3.innerHTML = (bal*-1).toLocaleString('en-US');
         }else{
             cell2.innerHTML = 0;
             cell3.innerHTML = 0;
@@ -202,17 +218,19 @@ function updateJournalListing(){
             cell6.innerHTML = data.journals[i][j].narration;
 
             var bal = data.journals[i][j].amount;
+            cell6.classList.add('wrap')
 
             if(bal > 0){
-                cell4.innerHTML = bal;
+                cell4.innerHTML = bal.toLocaleString('en-US');
                 cell5.innerHTML = 0;
             }else if(bal < 0){
                 cell4.innerHTML = 0;
-                cell5.innerHTML = -bal;
+                cell5.innerHTML = (bal*-1).toLocaleString('en-US');
             }else{
                 cell4.innerHTML = 0;
                 cell5.innerHTML = 0;
             }
+
             pos += 1;
         }
     }
@@ -232,7 +250,7 @@ function updateCOA(){
 
         // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
         var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
+        var cell2 = row.insertCell(1);      // Use in future to show account type i.e. asset, liability etc.
 
         cell1.innerHTML = data.account[i].name;
     }
@@ -240,8 +258,8 @@ function updateCOA(){
     var r = coa.insertRow(-1);
     var c1 = r.insertCell(0);
     var c2 = r.insertCell(1);
-    c1.innerHTML = '<td><input id="accName" type="text"></td>';
-    c2.innerHTML = "<td><button onclick='addToCoa()'>Add</button></td>";
+    c1.innerHTML = '<td><input id="accName" type="text"><button onclick="addToCoa()">Add</button></td>';
+    //c2.innerHTML = "<td><button onclick='addToCoa()'>Add</button></td>";
     accName = document.getElementById("accName");
 }
 
@@ -269,4 +287,12 @@ function addToCoa(){
 function showWorkspace(){
     var x = document.getElementById("workspace");
     x.hidden = false;
+}
+
+function show(id){
+    if(document.getElementById(id).hidden === true){
+        document.getElementById(id).hidden = false;
+    }else{
+        document.getElementById(id).hidden = true;
+    }
 }

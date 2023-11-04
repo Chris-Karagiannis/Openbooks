@@ -8,6 +8,7 @@ var accName = document.getElementById("accName");
 var journalNumber = document.getElementById("journalNumber");
 var journalListing = document.getElementById("journalListing");
 var jrlDate = document.getElementById("jrlDate");
+var jrlNarration = document.getElementById("jrlNarration")
 
 function addAccountList(){
     // Looping through journal entry account column
@@ -111,7 +112,8 @@ function postJournal(){
                 { 
                     name: account[i].value,
                     amount: Number(debit[i].value) - Number(credit[i].value),
-                    date: jrlDate.value
+                    date: jrlDate.value,
+                    narration: jrlNarration.value
                 }
             );
         }
@@ -123,9 +125,10 @@ function postJournal(){
             if(i > 1){
                 table.deleteRow(i + 1);
             }
-            jrlDate.value = "";
+            
         }
-
+        jrlDate.value = "";
+        jrlNarration.value = "";
         sumDebit();
         sumCredit();
         updateTrialBalance();
@@ -176,7 +179,7 @@ function updateTrialBalance(){
 function updateJournalListing(){
     journalListing.innerHTML = "";
     var toprow = journalListing.insertRow(0)
-    toprow.innerHTML = "<tr><th>No.</th><th>Date</th><th>Account</th><th>Debit</th><th>Credit</th></tr>"
+    toprow.innerHTML = "<tr><th>No.</th><th>Date</th><th>Account</th><th>Debit</th><th>Credit</th><th>Narration</th></tr>"
 
     var pos = 0;
 
@@ -191,10 +194,12 @@ function updateJournalListing(){
             var cell3 = row.insertCell(2);
             var cell4 = row.insertCell(3);
             var cell5 = row.insertCell(4);
+            var cell6 = row.insertCell(5);
 
             cell1.innerHTML = i;
             cell2.innerHTML = data.journals[i][j].date;
             cell3.innerHTML = data.journals[i][j].name;
+            cell6.innerHTML = data.journals[i][j].narration;
 
             var bal = data.journals[i][j].amount;
 

@@ -13,12 +13,29 @@ var jrlNarration = document.getElementById("jrlNarration")
 function addAccountList(){
     // Looping through journal entry account column
     for (let i = 0; i < accJournal.length; i++) {
+        let ind = accJournal[i].selectedIndex;
         accJournal[i].innerHTML = "";
         // Looping through accounts list from JSON file
         for (let j = 0; j < data.account.length; j++) {
             accJournal[i].innerHTML += "<option id=" + j + ">" + data.account[j].name + "</option>";    
         }
+        accJournal[i].selectedIndex = ind;
     }
+}
+
+function resetAccountList(){
+    for (let i = 0; i < accJournal.length; i++) {
+        accJournal[i].selectedIndex = -1;
+    }
+}
+
+function checkAccountEmpty(){
+    for (let i = 0; i < accJournal.length; i++) {
+        if(accJournal[i].selectedIndex === -1){
+            return false;
+        }
+    }
+    return true;
 }
 
 function addNewLine(){
@@ -41,6 +58,7 @@ function addNewLine(){
         cell1.childNodes[0].innerHTML += "<option id=" + j + ">" + data.account[j].name + "</option>";    
     }
 
+    cell1.childNodes[0].selectedIndex = -1;
     cell4.childNodes[0].addEventListener("click", deleteLine);
 }
 
@@ -108,7 +126,11 @@ function postJournal(){
         confirm("NO DATE ENTERED");
     }
 
-    if(debitTotal.innerHTML === creditTotal.innerHTML && Number(debitTotal.innerHTML) > 0 && Number(creditTotal.innerHTML) > 0 && jrlDate.value !== ""){
+    if(checkAccountEmpty() === false){
+        confirm("MISSING ACCOUNT");
+    }
+
+    if(debitTotal.innerHTML === creditTotal.innerHTML && Number(debitTotal.innerHTML) > 0 && Number(creditTotal.innerHTML) > 0 && jrlDate.value !== "" && checkAccountEmpty()){
         var leng = document.getElementsByClassName('debit').length; // Number of rows of journals
         var debit = document.getElementsByClassName('debit');
         var credit = document.getElementsByClassName('credit');
@@ -149,6 +171,7 @@ function postJournal(){
         sumCredit();
         updateTrialBalance();
         addAccountList();
+        resetAccountList()
         journalNumber.innerHTML =  data.journals.length;
         updateJournalListing();
     }

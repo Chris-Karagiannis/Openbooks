@@ -1,14 +1,14 @@
-var table = document.getElementById("journals");
-var trialBalance = document.getElementById("trialBalance");
-var debitTotal = document.getElementById("dr");
-var creditTotal = document.getElementById("cr");
-var accJournal = document.getElementsByClassName("account");
-var coa = document.getElementById("coa");
-var accName = document.getElementById("accName");
-var journalNumber = document.getElementById("journalNumber");
-var journalListing = document.getElementById("journalListing");
-var jrlDate = document.getElementById("jrlDate");
-var jrlNarration = document.getElementById("jrlNarration")
+const table = document.getElementById("journals");
+const trialBalance = document.getElementById("trialBalance");
+const debitTotal = document.getElementById("dr");
+const creditTotal = document.getElementById("cr");
+const accJournal = document.getElementsByClassName("account");
+const coa = document.getElementById("coa");
+let accName = document.getElementById("accName");
+const journalNumber = document.getElementById("journalNumber");
+const journalListing = document.getElementById("journalListing");
+const jrlDate = document.getElementById("jrlDate");
+const jrlNarration = document.getElementById("jrlNarration")
 
 function addAccountList(){
     // Looping through journal entry account column
@@ -40,13 +40,13 @@ function checkAccountEmpty(){
 
 function addNewLine(){
     // Create an empty <tr> element and add it to the 1st position of the table:
-    var row = table.insertRow(table.rows.length - 2);
+    const row = table.insertRow(table.rows.length - 2);
 
     // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
+    const cell1 = row.insertCell(0);
+    const cell2 = row.insertCell(1);
+    const cell3 = row.insertCell(2);
+    const cell4 = row.insertCell(3);
 
     // Add some text to the new cells:
     cell1.innerHTML = "<select class='account'></select>";
@@ -69,11 +69,11 @@ function deleteLine(r){
 }
 
 function sumDebit(){
-    var debit = document.getElementsByClassName('debit');
-    var drTotal = document.getElementById('dr');
-    var tot = 0;
+    const debit = document.getElementsByClassName('debit');
+    const drTotal = document.getElementById('dr');
+    let tot = 0;
 
-    for(var i = 0; i < debit.length; i++){
+    for(let i = 0; i < debit.length; i++){
         if (parseFloat(debit[i].value) > 0){
             tot += parseFloat(debit[i].value);
             debit[i].value = (Math.round(debit[i].value * 100) / 100).toFixed(2);
@@ -84,11 +84,11 @@ function sumDebit(){
 }
 
 function sumCredit(){
-    var credit = document.getElementsByClassName('credit');
-    var crTotal = document.getElementById('cr');
-    var tot = 0;
+    const credit = document.getElementsByClassName('credit');
+    const crTotal = document.getElementById('cr');
+    let tot = 0;
 
-    for(var i = 0; i < credit.length; i++){
+    for(let i = 0; i < credit.length; i++){
         if (parseFloat(credit[i].value) > 0){
             tot += parseFloat(credit[i].value);
             credit[i].value = (Math.round(credit[i].value * 100) / 100).toFixed(2);
@@ -99,8 +99,8 @@ function sumCredit(){
 }
 
 function sumColumn(col, id){
-    var tot = 0;
-    var loc = document.getElementById(id);
+    let tot = 0;
+    const loc = document.getElementById(id);
 
     for (let i = 1; i < trialBalance.rows.length - 1; i++) {
         let amo = removeCommas(trialBalance.rows[i].cells[col].innerHTML);
@@ -131,18 +131,18 @@ function postJournal(){
     }
 
     if(debitTotal.innerHTML === creditTotal.innerHTML && Number(debitTotal.innerHTML) > 0 && Number(creditTotal.innerHTML) > 0 && jrlDate.value !== "" && checkAccountEmpty()){
-        var leng = document.getElementsByClassName('debit').length; // Number of rows of journals
-        var debit = document.getElementsByClassName('debit');
-        var credit = document.getElementsByClassName('credit');
-        var account = document.getElementsByClassName('account');
+        const leng = document.getElementsByClassName('debit').length; // Number of rows of journals
+        const debit = document.getElementsByClassName('debit');
+        const credit = document.getElementsByClassName('credit');
+        const account = document.getElementsByClassName('account');
 
         data.journals.push([]);
 
-        for(var i = 0; i < leng; i++){
+        for(let i = 0; i < leng; i++){
             // Debit/Credit Account
-            var acc = account[i].selectedIndex;
-            var accountBalance = Number(data.account[acc].balance);
-            var newBalance = Number(accountBalance) + Number(debit[i].value) - Number(credit[i].value);
+            const acc = account[i].selectedIndex;
+            const accountBalance = Number(data.account[acc].balance);
+            const newBalance = Number(accountBalance) + Number(debit[i].value) - Number(credit[i].value);
             data.account[acc].balance = newBalance;
 
             // Record Journal in journals array
@@ -182,22 +182,22 @@ function updateTrialBalance(){
         trialBalance.deleteRow(i);        
     }
 
-    for(var i = 0; i < data.account.length; i++){
+    for(let i = 0; i < data.account.length; i++){
         // Loop through all items stored and add them to trial balance
         if(trialBalance.rows[i + 1] != undefined && trialBalance.rows[i + 1].id != "tbTotal"){
             trialBalance.deleteRow(i + 1);
         }
 
-        var row = trialBalance.insertRow(i + 1);
+        const row = trialBalance.insertRow(i + 1);
 
         // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);
+        const cell3 = row.insertCell(2);
 
         cell1.innerHTML = data.account[i].name;
 
-        var bal = data.account[i].balance;
+        const bal = data.account[i].balance;
 
         if(bal > 0){
             cell2.innerHTML = bal.toLocaleString('en-US');
@@ -217,30 +217,30 @@ function updateTrialBalance(){
 
 function updateJournalListing(){
     journalListing.innerHTML = "";
-    var toprow = journalListing.insertRow(0)
+    const toprow = journalListing.insertRow(0)
     toprow.innerHTML = "<tr><th>No.</th><th>Date</th><th>Account</th><th>Debit</th><th>Credit</th><th>Narration</th></tr>"
 
-    var pos = 0;
+    let pos = 0;
 
-    for(var i = 0; i < data.journals.length; i++){
+    for(let i = 0; i < data.journals.length; i++){
         for (let j = 0; j < data.journals[i].length; j++) {
             // Loop through all items stored and add them to trial balance
-            var row = journalListing.insertRow(pos + 1);
+            const row = journalListing.insertRow(pos + 1);
 
             // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
-            var cell5 = row.insertCell(4);
-            var cell6 = row.insertCell(5);
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+            const cell4 = row.insertCell(3);
+            const cell5 = row.insertCell(4);
+            const cell6 = row.insertCell(5);
 
             cell1.innerHTML = i;
             cell2.innerHTML = data.journals[i][j].date;
             cell3.innerHTML = data.journals[i][j].name;
             cell6.innerHTML = data.journals[i][j].narration;
 
-            var bal = data.journals[i][j].amount;
+            const bal = data.journals[i][j].amount;
             cell6.classList.add('wrap')
 
             if(bal > 0){
@@ -264,23 +264,23 @@ function updateCOA(){
         coa.deleteRow(i);        
     }
 
-    for(var i = 0; i < data.account.length; i++){
+    for(let i = 0; i < data.account.length; i++){
         if(coa.rows[i + 1] != undefined){
             coa.deleteRow(i + 1);
         }
 
-        var row = coa.insertRow(i + 1);
+        const row = coa.insertRow(i + 1);
 
         // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);      // Use in future to show account type i.e. asset, liability etc.
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);      // Use in future to show account type i.e. asset, liability etc.
 
         cell1.innerHTML = data.account[i].name;
     }
 
-    var r = coa.insertRow(-1);
-    var c1 = r.insertCell(0);
-    var c2 = r.insertCell(1);
+    const r = coa.insertRow(-1);
+    const c1 = r.insertCell(0);
+    const c2 = r.insertCell(1);
     c1.innerHTML = '<td><input id="accName" type="text"><button onclick="addToCoa()">Add</button></td>';
     //c2.innerHTML = "<td><button onclick='addToCoa()'>Add</button></td>";
     accName = document.getElementById("accName");
@@ -290,7 +290,7 @@ function addToCoa(){
     if(accName.value != ""){
         let accExists = false;
         
-        for(var i = 0; i < data.account.length; i++){
+        for(let i = 0; i < data.account.length; i++){
             if(data.account[i].name === accName.value){
                 accExists = true;
                 console.log("Exists");
@@ -308,7 +308,7 @@ function addToCoa(){
 }
 
 function showWorkspace(){
-    var x = document.getElementById("workspace");
+    const x = document.getElementById("workspace");
     x.hidden = false;
 }
 

@@ -30,6 +30,7 @@ h1 {
   color: white;
   padding: 2px;
   user-select: none;
+  padding: 10px;
 }
 
 h1:hover {
@@ -49,7 +50,7 @@ th {
     border-color: transparent;
     color: white;
     cursor: pointer;
-    transition-duration: 0.2s;
+    
 }
 
 #topbar button:hover{
@@ -80,6 +81,10 @@ th {
 #journals, #coa {
     background-color: white;
     width:100%;
+}
+
+#coa {
+    padding: 10px;
 }
 
 #jrlInfo {
@@ -118,7 +123,14 @@ input, select {
     color: white;
 }
 
-#journals button:hover {
+#coa button {
+    border-color: transparent;
+    background-color: #003559;
+    color: white;
+    margin: 5px;
+}
+
+#journals button:hover, #coa button:hover {
     background-color: #0072be;
     cursor: pointer;
 }

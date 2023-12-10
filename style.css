@@ -66,13 +66,13 @@ th {
     top: 0;
 }
 
-#trialBalance,#journalListing {
+#trialBalance,#journalListing, #generalLedger {
     background-color: #061A40;
     width:100%;
     table-layout: auto;
 }
 
-#trialBalance th,#trialBalance td, #journalListing th,#journalListing td {
+#trialBalance th,#trialBalance td, #journalListing th,#journalListing td, #generalLedger th,#generalLedger td {
     border: 1px solid;
     padding: 10px;
     background-color: white;
@@ -137,4 +137,17 @@ input, select {
 
 #journals th, #journals td {
     padding: 3px;
+}
+
+#generalLedger tr .title {
+    font-size: large;
+    
+}
+
+#generalLedger tr .total {
+    font-size: medium;
+    text-decoration: underline;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    border-bottom: 5px solid #061A40
 }

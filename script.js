@@ -8,7 +8,8 @@ let accName = document.getElementById("accName");
 const journalNumber = document.getElementById("journalNumber");
 const journalListing = document.getElementById("journalListing");
 const jrlDate = document.getElementById("jrlDate");
-const jrlNarration = document.getElementById("jrlNarration")
+const jrlNarration = document.getElementById("jrlNarration");
+const generalLedger = document.getElementById("generalLedger");
 
 function addAccountList(){
     // Looping through journal entry account column
@@ -98,12 +99,12 @@ function sumCredit(){
     crTotal.innerHTML = (Math.round(tot * 100) / 100).toFixed(2);
 }
 
-function sumColumn(col, id){
+function sumColumn(table, col, id){
     let tot = 0;
     const loc = document.getElementById(id);
 
-    for (let i = 1; i < trialBalance.rows.length - 1; i++) {
-        let amo = removeCommas(trialBalance.rows[i].cells[col].innerHTML);
+    for (let i = 1; i < table.rows.length - 1; i++) {
+        let amo = removeCommas(table.rows[i].cells[col].innerHTML);
         tot += Number(amo);
     }
     
@@ -174,6 +175,7 @@ function postJournal(){
         resetAccountList()
         journalNumber.innerHTML =  data.journals.length;
         updateJournalListing();
+        updateGL()
     }
 }
 
@@ -211,8 +213,8 @@ function updateTrialBalance(){
         }
     }
 
-    sumColumn(1, 'tbDebit');
-    sumColumn(2, 'tbCredit');
+    sumColumn(trialBalance, 1, 'tbDebit');
+    sumColumn(trialBalance, 2, 'tbCredit');
 }
 
 function updateJournalListing(){
@@ -303,6 +305,7 @@ function addToCoa(){
             updateCOA();
             updateTrialBalance();
             addAccountList();
+            updateGL()
         }
     }
 }
@@ -317,5 +320,83 @@ function show(id){
         document.getElementById(id).hidden = false;
     }else{
         document.getElementById(id).hidden = true;
+    }
+}
+
+function updateGL() {
+    generalLedger.innerHTML = "";
+    const toprow = generalLedger.insertRow(0)
+    toprow.innerHTML = "<tr><th>Account</th><th>No.</th><th>Date</th><th>Narration</th><th>Debit</th><th>Credit</th></tr>"
+
+    for (let k = 0; k < data.account.length; k++) {
+        console.log(data.account[k].name);
+        let totalDebit = 0;
+        let totalCredit = 0;
+
+        const title = generalLedger.insertRow(generalLedger.rows.length)
+        const cell1 = title.insertCell(0);
+        const cell2 = title.insertCell(1)
+        const cell3 = title.insertCell(2);
+        const cell4 = title.insertCell(3);
+        const cell5 = title.insertCell(4);
+        const cell6 = title.insertCell(5);
+
+        cell1.outerHTML = `<th class='title'>${data.account[k].name}</th>`
+        cell2.outerHTML = `<th class='title'></th>`
+        cell3.outerHTML = `<th class='title'></th>`
+        cell4.outerHTML = `<th class='title'></th>`
+        cell5.outerHTML = `<th class='title'></th>`
+        cell6.outerHTML = `<th class='title'></th>`
+
+        for(let i = 0; i < data.journals.length; i++){
+            for (let j = 0; j < data.journals[i].length; j++) {
+                if(data.journals[i][j].name === data.account[k].name){
+                    const row = generalLedger.insertRow(generalLedger.rows.length)
+                    const cell1 = row.insertCell(0);
+                    const cell2 = row.insertCell(1);
+                    const cell3 = row.insertCell(2);
+                    const cell4 = row.insertCell(3);
+                    const cell5 = row.insertCell(4);
+                    const cell6 = row.insertCell(5);
+
+                    cell2.innerHTML = i;
+                    cell3.innerHTML = data.journals[i][j].date;
+                    cell4.innerHTML = data.journals[i][j].narration;
+
+                    const bal = data.journals[i][j].amount;
+
+                    if(bal > 0){
+                        cell5.innerHTML = bal.toLocaleString('en-US');
+                        cell6.innerHTML = 0;
+                        totalDebit += bal;
+                    }else if(bal < 0){
+                        cell5.innerHTML = 0;
+                        cell6.innerHTML = (bal*-1).toLocaleString('en-US');
+                        totalCredit += bal * -1;
+                    }else{
+                        cell5.innerHTML = 0;
+                        cell6.innerHTML = 0;
+                    }
+
+                    console.log(data.journals[i][j])
+                }
+            }
+        }
+
+        const accBalance = generalLedger.insertRow(generalLedger.rows.length)
+        const c1 = accBalance.insertCell(0);
+        const c2 = accBalance.insertCell(1)
+        const c3 = accBalance.insertCell(2);
+        const c4 = accBalance.insertCell(3);
+        const c5 = accBalance.insertCell(4);
+        const c6 = accBalance.insertCell(5);
+        
+
+        c1.outerHTML = `<th class='total'>Total</th>`
+        c2.outerHTML = `<th class='total'></th>`
+        c3.outerHTML = `<th class='total'></th>`
+        c4.outerHTML = `<th class='total'></th>`
+        c5.outerHTML = `<th class='total'>${totalDebit.toLocaleString('en-US')}</th>`
+        c6.outerHTML = `<th class='total'>${totalCredit.toLocaleString('en-US')}</th>`
     }
 }

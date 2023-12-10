@@ -36,20 +36,23 @@ const settings = {
 };
 
 async function openFile(){
-    [fileHandle] = await window.showOpenFilePicker(settings);
-    let fileData = await fileHandle.getFile();
-    if(String(fileData.type) != "application/json"){
-        console.log("Incorrect File Type!");
-        fileData = "";
-    }else{
-        const myJson = await fileData.text();
-        data = JSON.parse(myJson);
-        showWorkspace();
-        addAccountList();
-        updateTrialBalance();
-        updateCOA();
-        updateJournalListing();
-        journalNumber.innerHTML =  data.journals.length;
+    let conf = true;
+
+    if(data !== undefined){
+        conf = confirm("Any unsaved changes will discarded, do you want to continue?")
+    }  
+    
+    if(conf === true){
+        [fileHandle] = await window.showOpenFilePicker(settings);
+        let fileData = await fileHandle.getFile();
+        if(String(fileData.type) != "application/json"){
+            console.log("Incorrect File Type!");
+            fileData = "";
+        }else{
+            const myJson = await fileData.text();
+            data = JSON.parse(myJson);
+            openWorkspace();
+        }
     }
 }
 
@@ -70,10 +73,16 @@ async function newFile(){
     fileHandle = await window.showSaveFilePicker(settings);
     data = base;
     saveFile();
+    openWorkspace();
+}
+
+function openWorkspace(){
     showWorkspace();
     addAccountList();
     updateTrialBalance();
     updateCOA();
     updateJournalListing();
+    updateGL()
     journalNumber.innerHTML =  data.journals.length;
 }
+ 

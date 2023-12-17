@@ -7,17 +7,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="topbar">
+    <nav id="topbar">
         <button class="topbar" onclick="newFile()">New</button>
         <button class="topbar" onclick="openFile()">Open</button>
         <button class="topbar" onclick="saveFile()">Save</button>
         <button class="topbar" onclick="saveAs()">Save As</button>
-    </div>
+    </nav>
     
     <div id="workspace" hidden>
         <div id="report">
             <h1 onclick="show('trialBalance')">Trial Balance</h1>
-                <table id="trialBalance">
+                <table id="trialBalance" hidden>
                     <tr>
                         <th>Account</th>
                         <th>Debit</th>
@@ -30,7 +30,15 @@
                     </tr>
                 </table>
             <br>
-            <h1 onclick="show('generalLedger')">General Ledger</h1>
+            <h1 onclick="show('gl')">General Ledger</h1>
+            <div id="gl" hidden>
+                <div id="glDates" class="dates">
+                    <label>Start Date: </label>
+                    <input type="date" id="glStartDate">
+                    <label>End Date: </label>
+                    <input type="date" id="glEndDate">
+                    <button onclick="updateGL()">Refresh</button>
+                </div>
                 <table id="generalLedger">
                     <tr>
                         <th>Account</th>
@@ -41,11 +49,12 @@
                         <th>Credit</th>
                     </tr>
                 </table>
+            </div>
         </div>
 
         <div id="inputData">
             <h1 onclick="show('jrlTable')">Journal Entry</h1>
-            <div id="jrlTable">
+            <div id="jrlTable" hidden>
                 <div id="jrlInfo">
                     <label for="jrlDate">Date: </label>
                     <input type="date" id="jrlDate">
@@ -81,20 +90,28 @@
                 </table>
             </div>
             <br>
-            <h1 onclick="show('journalListing')">Journal Listing</h1>
-            <table id="journalListing">
-                <tr>
-                    <th>No.</th>
-                    <th>Date</th>
-                    <th>Account</th>
-                    <th>Debit</th>
-                    <th>Credit</th>
-                </tr>
-            </table>
-            
+            <h1 onclick="show('jrlListing')">Journal Listing</h1>
+            <div id="jrlListing" hidden>
+                <div id="journalListingDates" class="dates">
+                    <label>Start Date: </label>
+                    <input type="date" id="jrlStartDate">
+                    <label>End Date: </label>
+                    <input type="date" id="jrlEndDate">
+                    <button onclick="updateJournalListing()">Refresh</button>
+                </div>
+                <table id="journalListing">
+                    <tr>
+                        <th>No.</th>
+                        <th>Date</th>
+                        <th>Account</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                    </tr>
+                </table>
+            </div>
             <br>
             <h1 onclick="show('coa')">Chart of Accounts</h1>
-            <table id="coa">
+            <table id="coa" hidden>
                 <tr>
                     <th>Account</th>
                     <th></th>

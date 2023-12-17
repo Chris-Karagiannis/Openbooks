@@ -90,7 +90,14 @@ th {
 #jrlInfo {
     background-color: white;
     width:100%;
+    padding: 10px;
 }
+
+.dates {
+    background-color: white;
+    padding: 10px;
+}
+
 
 #journals select, #journals input {
     width: 100%;
@@ -123,14 +130,14 @@ input, select {
     color: white;
 }
 
-#coa button {
+#coa button, #jrlListing button, #gl button {
     border-color: transparent;
     background-color: #003559;
     color: white;
     margin: 5px;
 }
 
-#journals button:hover, #coa button:hover {
+#journals button:hover, #coa button:hover, #jrlListing button:hover, #gl button:hover {
     background-color: #0072be;
     cursor: pointer;
 }

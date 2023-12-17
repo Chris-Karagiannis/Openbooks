@@ -10,6 +10,10 @@ const journalListing = document.getElementById("journalListing");
 const jrlDate = document.getElementById("jrlDate");
 const jrlNarration = document.getElementById("jrlNarration");
 const generalLedger = document.getElementById("generalLedger");
+const jrlStartDate = document.getElementById("jrlStartDate");
+const jrlEndDate = document.getElementById("jrlEndDate");
+const glStartDate = document.getElementById("glStartDate");
+const glEndDate = document.getElementById("glEndDate");
 
 function addAccountList(){
     // Looping through journal entry account column
@@ -97,18 +101,6 @@ function sumCredit(){
     }
 
     crTotal.innerHTML = (Math.round(tot * 100) / 100).toFixed(2);
-}
-
-function sumColumn(table, col, id){
-    let tot = 0;
-    const loc = document.getElementById(id);
-
-    for (let i = 1; i < table.rows.length - 1; i++) {
-        let amo = removeCommas(table.rows[i].cells[col].innerHTML);
-        tot += Number(amo);
-    }
-    
-    loc.innerHTML = tot;
 }
 
 function removeCommas(str) {
@@ -235,37 +227,39 @@ function updateJournalListing(){
 
     for(let i = 0; i < data.journals.length; i++){
         for (let j = 0; j < data.journals[i].length; j++) {
-            // Loop through all items stored and add them to trial balance
-            const row = journalListing.insertRow(pos + 1);
+            if(compareTime(data.journals[i][j].date,jrlStartDate.value) && compareTime(jrlEndDate.value,data.journals[i][j].date)){
+                // Loop through all items stored and add them to trial balance
+                const row = journalListing.insertRow(pos + 1);
 
-            // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-            const cell1 = row.insertCell(0);
-            const cell2 = row.insertCell(1);
-            const cell3 = row.insertCell(2);
-            const cell4 = row.insertCell(3);
-            const cell5 = row.insertCell(4);
-            const cell6 = row.insertCell(5);
+                // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+                const cell1 = row.insertCell(0);
+                const cell2 = row.insertCell(1);
+                const cell3 = row.insertCell(2);
+                const cell4 = row.insertCell(3);
+                const cell5 = row.insertCell(4);
+                const cell6 = row.insertCell(5);
 
-            cell1.innerHTML = i;
-            cell2.innerHTML = data.journals[i][j].date;
-            cell3.innerHTML = data.journals[i][j].name;
-            cell6.innerHTML = data.journals[i][j].narration;
+                cell1.innerHTML = i;
+                cell2.innerHTML = data.journals[i][j].date;
+                cell3.innerHTML = data.journals[i][j].name;
+                cell6.innerHTML = data.journals[i][j].narration;
 
-            const bal = data.journals[i][j].amount;
-            cell6.classList.add('wrap')
+                const bal = data.journals[i][j].amount;
+                cell6.classList.add('wrap')
 
-            if(bal > 0){
-                cell4.innerHTML = bal.toLocaleString('en-US');
-                cell5.innerHTML = 0;
-            }else if(bal < 0){
-                cell4.innerHTML = 0;
-                cell5.innerHTML = (bal*-1).toLocaleString('en-US');
-            }else{
-                cell4.innerHTML = 0;
-                cell5.innerHTML = 0;
+                if(bal > 0){
+                    cell4.innerHTML = bal.toLocaleString('en-US');
+                    cell5.innerHTML = 0;
+                }else if(bal < 0){
+                    cell4.innerHTML = 0;
+                    cell5.innerHTML = (bal*-1).toLocaleString('en-US');
+                }else{
+                    cell4.innerHTML = 0;
+                    cell5.innerHTML = 0;
+                }
+
+                pos += 1;
             }
-
-            pos += 1;
         }
     }
 }
@@ -359,7 +353,7 @@ function updateGL() {
 
         for(let i = 0; i < data.journals.length; i++){
             for (let j = 0; j < data.journals[i].length; j++) {
-                if(data.journals[i][j].name === data.account[k].name){
+                if(data.journals[i][j].name === data.account[k].name && compareTime(data.journals[i][j].date,glStartDate.value) && compareTime(glEndDate.value,data.journals[i][j].date)){
                     const row = generalLedger.insertRow(generalLedger.rows.length)
                     const cell1 = row.insertCell(0);
                     const cell2 = row.insertCell(1);
@@ -408,4 +402,8 @@ function updateGL() {
         c5.outerHTML = `<th class='total'>${totalDebit.toLocaleString('en-US')}</th>`
         c6.outerHTML = `<th class='total'>${totalCredit.toLocaleString('en-US')}</th>`
     }
+}
+
+function compareTime(time1, time2) {
+    return new Date(time1) >= new Date(time2); // true if time1 is later
 }

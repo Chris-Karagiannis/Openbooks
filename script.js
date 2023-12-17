@@ -180,41 +180,50 @@ function postJournal(){
 }
 
 function updateTrialBalance(){
-    for (let i = 1; i < trialBalance.rows.length - 1; i++) {
-        trialBalance.deleteRow(i);        
-    }
+    trialBalance.innerHTML = "<tr><th>Account</th><th>Debit</th><th>Credit</th></tr>";
+    let totalDebit = 0;
+    let totalCredit = 0;
 
-    for(let i = 0; i < data.account.length; i++){
-        // Loop through all items stored and add them to trial balance
-        if(trialBalance.rows[i + 1] != undefined && trialBalance.rows[i + 1].id != "tbTotal"){
-            trialBalance.deleteRow(i + 1);
-        }
-
-        const row = trialBalance.insertRow(i + 1);
-
-        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+    for (let k = 0; k < data.account.length; k++) {
+        let bal = 0;
+        const row = trialBalance.insertRow(k + 1);
         const cell1 = row.insertCell(0);
         const cell2 = row.insertCell(1);
         const cell3 = row.insertCell(2);
 
-        cell1.innerHTML = data.account[i].name;
+        cell1.innerHTML = data.account[k].name;
 
-        const bal = data.account[i].balance;
-
+        for(let i = 0; i < data.journals.length; i++){
+            for (let j = 0; j < data.journals[i].length; j++) {
+                if(data.journals[i][j].name === data.account[k].name){
+                    bal += data.journals[i][j].amount;
+                }
+            }
+        }
+        
         if(bal > 0){
             cell2.innerHTML = bal.toLocaleString('en-US');
             cell3.innerHTML = 0;
+            totalDebit += bal;
         }else if(bal < 0){
             cell2.innerHTML = 0;
             cell3.innerHTML = (bal*-1).toLocaleString('en-US');
+            totalCredit += bal * -1;
         }else{
             cell2.innerHTML = 0;
             cell3.innerHTML = 0;
         }
+
     }
 
-    sumColumn(trialBalance, 1, 'tbDebit');
-    sumColumn(trialBalance, 2, 'tbCredit');
+    const total = trialBalance.insertRow(trialBalance.rows.length);
+    const cell1 = total.insertCell(0);
+    const cell2 = total.insertCell(1);
+    const cell3 = total.insertCell(2);
+
+    cell1.outerHTML = `<th class='title'>Total</th>`;
+    cell2.outerHTML = `<th class='title'>${totalDebit}</th>`;
+    cell3.outerHTML = `<th class='title'>${totalCredit}</th>`;
 }
 
 function updateJournalListing(){

@@ -4,19 +4,15 @@ let base = {
     "account": [
         {
             "name": "Accounting Fees",
-            "balance": 0
         },
         {
             "name": "Cash at Bank",
-            "balance": 0
         },
         {
             "name": "Repairs & Maintenance",
-            "balance": 0
         },
         {
             "name": "Sales",
-            "balance": 0
         }
     ],
 

@@ -15,6 +15,7 @@ const jrlEndDate = document.getElementById("jrlEndDate");
 const glStartDate = document.getElementById("glStartDate");
 const glEndDate = document.getElementById("glEndDate");
 
+
 function addAccountList(){
     // Looping through journal entry account column
     for (let i = 0; i < accJournal.length; i++) {
@@ -129,16 +130,12 @@ function postJournal(){
         const credit = document.getElementsByClassName('credit');
         const account = document.getElementsByClassName('account');
 
+
+        // Add empty array to end of journals, to store another array which will have the individual lines of the journal
         data.journals.push([]);
 
         for(let i = 0; i < leng; i++){
-            // Debit/Credit Account
-            const acc = account[i].selectedIndex;
-            const accountBalance = Number(data.account[acc].balance);
-            const newBalance = Number(accountBalance) + Number(debit[i].value) - Number(credit[i].value);
-            data.account[acc].balance = newBalance;
-
-            // Record Journal in journals array
+            // Record Journal Lines in journals array
             data.journals[data.journals.length - 1].push(
                 { 
                     name: account[i].value,
@@ -247,12 +244,15 @@ function updateJournalListing(){
                 const bal = data.journals[i][j].amount;
                 cell6.classList.add('wrap')
 
+                cell4.setAttribute("data-t", "n")
+                cell5.setAttribute("data-t", "n")
+
                 if(bal > 0){
-                    cell4.innerHTML = bal.toLocaleString('en-US');
+                    cell4.innerHTML = bal;
                     cell5.innerHTML = 0;
                 }else if(bal < 0){
                     cell4.innerHTML = 0;
-                    cell5.innerHTML = (bal*-1).toLocaleString('en-US');
+                    cell5.innerHTML = (bal*-1);
                 }else{
                     cell4.innerHTML = 0;
                     cell5.innerHTML = 0;
@@ -338,7 +338,7 @@ function updateGL() {
 
         const title = generalLedger.insertRow(generalLedger.rows.length)
         const cell1 = title.insertCell(0);
-        const cell2 = title.insertCell(1)
+        const cell2 = title.insertCell(1);
         const cell3 = title.insertCell(2);
         const cell4 = title.insertCell(3);
         const cell5 = title.insertCell(4);
@@ -368,13 +368,16 @@ function updateGL() {
 
                     const bal = data.journals[i][j].amount;
 
+                    cell5.setAttribute("data-t", "n")
+                    cell6.setAttribute("data-t", "n")
+
                     if(bal > 0){
-                        cell5.innerHTML = bal.toLocaleString('en-US');
+                        cell5.innerHTML = bal;
                         cell6.innerHTML = 0;
                         totalDebit += bal;
                     }else if(bal < 0){
                         cell5.innerHTML = 0;
-                        cell6.innerHTML = (bal*-1).toLocaleString('en-US');
+                        cell6.innerHTML = (bal*-1);
                         totalCredit += bal * -1;
                     }else{
                         cell5.innerHTML = 0;
@@ -395,15 +398,29 @@ function updateGL() {
         const c6 = accBalance.insertCell(5);
         
 
-        c1.outerHTML = `<th class='total'>Total</th>`
-        c2.outerHTML = `<th class='total'></th>`
-        c3.outerHTML = `<th class='total'></th>`
-        c4.outerHTML = `<th class='total'></th>`
-        c5.outerHTML = `<th class='total'>${totalDebit.toLocaleString('en-US')}</th>`
-        c6.outerHTML = `<th class='total'>${totalCredit.toLocaleString('en-US')}</th>`
+        c1.outerHTML = `<th class='total'>Total</th>`;
+        c2.outerHTML = `<th class='total'></th>`;
+        c3.outerHTML = `<th class='total'></th>`;
+        c4.outerHTML = `<th class='total'></th>`;
+        c5.outerHTML = `<th class='total' data-t="n">${totalDebit}</th>`;
+        c6.outerHTML = `<th class='total' data-t="n">${totalCredit}</th>`;
+
+        const gap = generalLedger.insertRow(generalLedger.rows.length)
+        const g1 = gap.insertCell(0);
+        const g2 = gap.insertCell(1)
+        const g3 = gap.insertCell(2);
+        const g4 = gap.insertCell(3);
+        const g5 = gap.insertCell(4);
+        const g6 = gap.insertCell(5);
     }
 }
 
 function compareTime(time1, time2) {
     return new Date(time1) >= new Date(time2); // true if time1 is later
+}
+
+function exportExcel(tbl, name){
+    TableToExcel.convert(document.getElementById(tbl), {
+        name: name + ".xlsx"
+    });
 }

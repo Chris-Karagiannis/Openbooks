@@ -6,6 +6,7 @@
     <title>Bookkeeping</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
 <body>
     <nav id="topbar">
         <button class="topbar" onclick="newFile()">New</button>
@@ -38,6 +39,7 @@
                     <label>End Date: </label>
                     <input type="date" id="glEndDate">
                     <button onclick="updateGL()">Refresh</button>
+                    <button onclick="exportExcel('generalLedger', 'General Ledger')">Export to Excel</button>
                 </div>
                 <table id="generalLedger">
                     <tr>
@@ -45,6 +47,27 @@
                         <th>No.</th>
                         <th>Date</th>
                         <th>Narration</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <h1 onclick="show('jrlListing')">Journal Listing</h1>
+            <div id="jrlListing" hidden>
+                <div id="journalListingDates" class="dates">
+                    <label>Start Date: </label>
+                    <input type="date" id="jrlStartDate">
+                    <label>End Date: </label>
+                    <input type="date" id="jrlEndDate">
+                    <button onclick="updateJournalListing()">Refresh</button>
+                    <button onclick="exportExcel('journalListing','Journal Entries')">Export to Excel</button>
+                </div>
+                <table id="journalListing">
+                    <tr>
+                        <th>No.</th>
+                        <th>Date</th>
+                        <th>Account</th>
                         <th>Debit</th>
                         <th>Credit</th>
                     </tr>
@@ -89,26 +112,7 @@
                     </tr>
                 </table>
             </div>
-            <br>
-            <h1 onclick="show('jrlListing')">Journal Listing</h1>
-            <div id="jrlListing" hidden>
-                <div id="journalListingDates" class="dates">
-                    <label>Start Date: </label>
-                    <input type="date" id="jrlStartDate">
-                    <label>End Date: </label>
-                    <input type="date" id="jrlEndDate">
-                    <button onclick="updateJournalListing()">Refresh</button>
-                </div>
-                <table id="journalListing">
-                    <tr>
-                        <th>No.</th>
-                        <th>Date</th>
-                        <th>Account</th>
-                        <th>Debit</th>
-                        <th>Credit</th>
-                    </tr>
-                </table>
-            </div>
+
             <br>
             <h1 onclick="show('coa')">Chart of Accounts</h1>
             <table id="coa" hidden>
@@ -123,4 +127,5 @@
 </body>
 <script src="script.js"></script>
 <script src="file.js"></script>
+
 </html>

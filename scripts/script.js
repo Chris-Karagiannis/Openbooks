@@ -410,12 +410,6 @@ function updateGL() {
         c6.outerHTML = `<th class='total' data-t="n">${totalCredit}</th>`;
 
         const gap = generalLedger.insertRow(generalLedger.rows.length)
-        const g1 = gap.insertCell(0);
-        const g2 = gap.insertCell(1)
-        const g3 = gap.insertCell(2);
-        const g4 = gap.insertCell(3);
-        const g5 = gap.insertCell(4);
-        const g6 = gap.insertCell(5);
     }
 }
 

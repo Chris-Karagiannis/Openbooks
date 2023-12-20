@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookkeeping</title>
+    <title>Openbooks</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
 </head>
-<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
 <body>
     <nav id="topbar">
         <button class="topbar" onclick="newFile()">New</button>
@@ -17,26 +15,34 @@
     
     <div id="workspace" hidden>
         <div id="report">
-            <h1 onclick="show('trialBalance')">Trial Balance</h1>
-                <table id="trialBalance" hidden>
-                    <tr>
-                        <th>Account</th>
-                        <th>Debit</th>
-                        <th>Credit</th>
-                    </tr>
-                    <tr id="tbTotal">
-                        <td id="tb"></td>
-                        <td id="tbDebit"></td>
-                        <td id="tbCredit"></td>
-                    </tr>
-                </table>
+            <h1 onclick="show('tb')">Trial Balance</h1>
+                <div id="tb" hidden>
+                    <div id="tbDate" class="dates">
+                        <label for="tbEndDate">As at:  </label>
+                        <input type="date" id="tbEndDate">
+                        <button onclick="updateTrialBalance()">Refresh</button>
+                        <button onclick="exportExcel('trialBalance', 'Trial Balance')">Export to Excel</button>
+                    </div>
+                    <table id="trialBalance">
+                        <tr>
+                            <th>Account</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                        </tr>
+                        <tr id="tbTotal">
+                            <td id="tb"></td>
+                            <td id="tbDebit"></td>
+                            <td id="tbCredit"></td>
+                        </tr>
+                    </table>
+                </div>
             <br>
             <h1 onclick="show('gl')">General Ledger</h1>
             <div id="gl" hidden>
                 <div id="glDates" class="dates">
-                    <label>Start Date: </label>
+                    <label for="glStartDate">Start Date: </label>
                     <input type="date" id="glStartDate">
-                    <label>End Date: </label>
+                    <label for="glEndDate">End Date: </label>
                     <input type="date" id="glEndDate">
                     <button onclick="updateGL()">Refresh</button>
                     <button onclick="exportExcel('generalLedger', 'General Ledger')">Export to Excel</button>
@@ -47,27 +53,6 @@
                         <th>No.</th>
                         <th>Date</th>
                         <th>Narration</th>
-                        <th>Debit</th>
-                        <th>Credit</th>
-                    </tr>
-                </table>
-            </div>
-            <br>
-            <h1 onclick="show('jrlListing')">Journal Listing</h1>
-            <div id="jrlListing" hidden>
-                <div id="journalListingDates" class="dates">
-                    <label>Start Date: </label>
-                    <input type="date" id="jrlStartDate">
-                    <label>End Date: </label>
-                    <input type="date" id="jrlEndDate">
-                    <button onclick="updateJournalListing()">Refresh</button>
-                    <button onclick="exportExcel('journalListing','Journal Entries')">Export to Excel</button>
-                </div>
-                <table id="journalListing">
-                    <tr>
-                        <th>No.</th>
-                        <th>Date</th>
-                        <th>Account</th>
                         <th>Debit</th>
                         <th>Credit</th>
                     </tr>
@@ -112,7 +97,27 @@
                     </tr>
                 </table>
             </div>
-
+            <br>
+            <h1 onclick="show('jrlListing')">Journal Listing</h1>
+            <div id="jrlListing" hidden>
+                <div id="journalListingDates" class="dates">
+                    <label for="jrlStartDate">Start Date: </label>
+                    <input type="date" id="jrlStartDate">
+                    <label for="jrlEndDate">End Date: </label>
+                    <input type="date" id="jrlEndDate">
+                    <button onclick="updateJournalListing()">Refresh</button>
+                    <button onclick="exportExcel('journalListing','Journal Entries')">Export to Excel</button>
+                </div>
+                <table id="journalListing">
+                    <tr>
+                        <th>No.</th>
+                        <th>Date</th>
+                        <th>Account</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                    </tr>
+                </table>
+            </div>
             <br>
             <h1 onclick="show('coa')">Chart of Accounts</h1>
             <table id="coa" hidden>
@@ -125,7 +130,7 @@
         </div>
     </div>
 </body>
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
 <script src="script.js"></script>
 <script src="file.js"></script>
-
 </html>

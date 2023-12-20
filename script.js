@@ -1,4 +1,4 @@
-const table = document.getElementById("journals");
+const journalEntry = document.getElementById("journals");
 const trialBalance = document.getElementById("trialBalance");
 const debitTotal = document.getElementById("dr");
 const creditTotal = document.getElementById("cr");
@@ -14,6 +14,7 @@ const jrlStartDate = document.getElementById("jrlStartDate");
 const jrlEndDate = document.getElementById("jrlEndDate");
 const glStartDate = document.getElementById("glStartDate");
 const glEndDate = document.getElementById("glEndDate");
+const tbEndDate = document.getElementById("tbEndDate");
 
 
 function addAccountList(){
@@ -45,8 +46,8 @@ function checkAccountEmpty(){
 }
 
 function addNewLine(){
-    // Create an empty <tr> element and add it to the 1st position of the table:
-    const row = table.insertRow(table.rows.length - 2);
+    // Create an empty <tr> element and add it to the 1st position of the journalEntry:
+    const row = journalEntry.insertRow(journalEntry.rows.length - 2);
 
     // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
     const cell1 = row.insertCell(0);
@@ -151,7 +152,7 @@ function postJournal(){
             debit[i].value = "";
             credit[i].value = "";
             if(i > 1){
-                table.deleteRow(i + 1);
+                journalEntry.deleteRow(i + 1);
             }
             
         }
@@ -184,19 +185,22 @@ function updateTrialBalance(){
 
         for(let i = 0; i < data.journals.length; i++){
             for (let j = 0; j < data.journals[i].length; j++) {
-                if(data.journals[i][j].name === data.account[k].name){
+                if(data.journals[i][j].name === data.account[k].name && compareTime(tbEndDate.value,data.journals[i][j].date)){
                     bal += data.journals[i][j].amount;
                 }
             }
         }
+
+        cell2.setAttribute("data-t", "n");
+        cell3.setAttribute("data-t", "n");
         
         if(bal > 0){
-            cell2.innerHTML = bal.toLocaleString('en-US');
+            cell2.innerHTML = bal;
             cell3.innerHTML = 0;
             totalDebit += bal;
         }else if(bal < 0){
             cell2.innerHTML = 0;
-            cell3.innerHTML = (bal*-1).toLocaleString('en-US');
+            cell3.innerHTML = (bal*-1);
             totalCredit += bal * -1;
         }else{
             cell2.innerHTML = 0;
@@ -211,8 +215,8 @@ function updateTrialBalance(){
     const cell3 = total.insertCell(2);
 
     cell1.outerHTML = `<th class='title'>Total</th>`;
-    cell2.outerHTML = `<th class='title'>${totalDebit}</th>`;
-    cell3.outerHTML = `<th class='title'>${totalCredit}</th>`;
+    cell2.outerHTML = `<th class='title' data-t='n'>${totalDebit}</th>`;
+    cell3.outerHTML = `<th class='title' data-t='n'>${totalCredit}</th>`;
 }
 
 function updateJournalListing(){
@@ -244,8 +248,8 @@ function updateJournalListing(){
                 const bal = data.journals[i][j].amount;
                 cell6.classList.add('wrap')
 
-                cell4.setAttribute("data-t", "n")
-                cell5.setAttribute("data-t", "n")
+                cell4.setAttribute("data-t", "n");
+                cell5.setAttribute("data-t", "n");
 
                 if(bal > 0){
                     cell4.innerHTML = bal;
@@ -419,8 +423,8 @@ function compareTime(time1, time2) {
     return new Date(time1) >= new Date(time2); // true if time1 is later
 }
 
-function exportExcel(tbl, name){
-    TableToExcel.convert(document.getElementById(tbl), {
+function exportExcel(table, name){
+    TableToExcel.convert(document.getElementById(table), {
         name: name + ".xlsx"
     });
 }

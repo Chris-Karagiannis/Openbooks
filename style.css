@@ -123,21 +123,15 @@ input, select {
     overflow-y: auto;
 }
 
-#journals button {
-    width: 100%;
-    border-color: transparent;
-    background-color: #003559;
-    color: white;
-}
 
-#coa button, #jrlListing button, #gl button {
+#workspace button {
     border-color: transparent;
     background-color: #003559;
     color: white;
     margin: 5px;
 }
 
-#journals button:hover, #coa button:hover, #jrlListing button:hover, #gl button:hover {
+#workspace button:hover {
     background-color: #0072be;
     cursor: pointer;
 }

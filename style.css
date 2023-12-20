@@ -72,7 +72,7 @@ th {
     table-layout: auto;
 }
 
-#trialBalance th,#trialBalance td, #journalListing th,#journalListing td, #generalLedger th,#generalLedger td {
+th:not(#journals th, #coa th), td:not(#journals td, #coa td) {
     border: 1px solid;
     padding: 10px;
     background-color: white;
@@ -117,12 +117,6 @@ input, select {
 #jrlTable {
     border: 10px solid white;
 }
-
-.wrap {
-    overflow-wrap: anywhere;
-    overflow-y: auto;
-}
-
 
 #workspace button {
     border-color: transparent;

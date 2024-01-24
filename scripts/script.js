@@ -290,7 +290,7 @@ function updateCOA(){
     const r = coa.insertRow(-1);
     const c1 = r.insertCell(0);
     const c2 = r.insertCell(1);
-    c1.innerHTML = '<td><input id="accName" type="text"><button onclick="addToCoa()">Add</button></td>';
+    c1.innerHTML = '<td><input id="accName" type="text" placeholder="Account Name"><button onclick="addToCoa()">Add</button></td>';
     //c2.innerHTML = "<td><button onclick='addToCoa()'>Add</button></td>";
     accName = document.getElementById("accName");
 }
